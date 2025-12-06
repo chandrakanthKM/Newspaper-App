@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Articles{% endblock title %}
+
+{% block content %}
+<div style="
+    width: 75%;
+    margin: 25px auto;
+">
+
+    {% for article in object_list %}
+    <div style="
+        margin-bottom: 25px;
+        background: white;
+        border-radius: 10px;
+        border: 3px solid #0047ab;
+        box-shadow: 0 0 10px rgba(0,0,0,0.22);
+        padding: 0;
+    ">
+
+        <div style="
+            background-color: #0047ab;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 7px 7px 0 0;
+            font-weight: bold;
+        ">
+            {{ article.title }}
+            <span style="font-weight: normal; font-size: 14px;">
+                &middot;
+                by {{ article.author }} |
+                {{ article.date }}
+            </span>
+        </div>
+
+        <div style="
+            padding: 15px;
+            color: black;
+            background-color: white;
+        ">
+            {{ article.body }}
+        </div>
+
+        <div style="
+            padding: 10px 15px;
+            background: #fafafa;
+            border-top: 1px solid #ddd;
+        ">
+            {% for comment in article.comments.all %}
+            <p>
+                <span style="font-weight: bold;">{{ comment.author }} &middot;</span>
+                {{ comment }}
+            </p>
+            {% empty %}
+            <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+
+        <div style="
+            background-color: #d50000;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            border-radius: 0 0 7px 7px;
+        ">
+            <a href="{% url 'article_edit' article.pk %}"
+               style="color: white; font-weight: bold; text-decoration: underline;">
+               Edit
+            </a>
+            |
+            <a href="{% url 'article_delete' article.pk %}"
+               style="color: white; font-weight: bold; text-decoration: underline;">
+               Delete
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock content %}
